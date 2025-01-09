@@ -7,8 +7,8 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  src: {
-    type: String,
+  data: {
+    type: [Blob, String],
     required: true
   },
   width: {
@@ -19,15 +19,15 @@ const props = defineProps({
     type: Number,
     required: true
   },
-  btn: {
-    type: String,
+  config: {
+    type: Object,
     required: true
   }
 })
 defineEmits(["close", "sendCb"])
 let tool = new videoTool()
 
-watch(() => props.src, (val) => {
+watch(() => props.data, (val) => {
   if (val) {
     tool = new videoTool()
     tool.init(props.width, props.height, val)
@@ -54,8 +54,8 @@ watch(() => props.src, (val) => {
       </div>
       <div class="footer" id="video-footer">
         <div class="grid video-grid-tab">
-          <button type="button" class="btn btn-primary" @click="$emit('sendCb',{type:'video', file:tool.toFile()})">
-            {{ props.btn }}
+          <button type="button" class="btn btn-primary" @click="$emit('sendCb',{type:'video', data:tool.result()})">
+            {{ props.config.btn }}
           </button>
         </div>
       </div>

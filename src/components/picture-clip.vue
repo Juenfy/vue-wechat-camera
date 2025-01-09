@@ -7,7 +7,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  src: {
+  data: {
     type: String,
     required: true
   },
@@ -19,15 +19,15 @@ const props = defineProps({
     type: Number,
     required: true
   },
-  btn: {
-    type: String,
+  config:{
+    type: Object,
     required: true
   }
 })
 defineEmits(["close", "sendCb"])
 let tool = new picTool()
 
-watch(() => props.src, (val) => {
+watch(() => props.data, (val) => {
   if (val) {
     tool = new picTool()
     tool.init(props.width, props.height, val)
@@ -62,8 +62,8 @@ watch(() => props.src, (val) => {
           <img :src="tab?.activeIcon" :alt="tab.name+'-active'" v-else>
         </div>
         <div class="grid pic-grid-tab">
-          <button type="button" class="btn btn-primary" @click="$emit('sendCb',{type:'picture', file:tool.toFile()})">
-            {{ props.btn }}
+          <button type="button" class="btn btn-primary" @click="$emit('sendCb',{type:'picture', data:tool.result(props.config.mime)})">
+            {{ props.config.btn }}
           </button>
         </div>
         <div class="tool" id="pen-tool">

@@ -29,9 +29,12 @@ npm run dev
 ## 快速开始
 ### 如何安装?
 ```shell
-npm i vue-wechat-camera
+npm i vue-wechat-camera@latest
 ```
-
+或者
+```shell
+cnpm i vue-wechat-camera@latest
+```
 ### 如何使用?
 
 ```vue
@@ -54,15 +57,15 @@ const cameraCb = (e) => {
 
 ### 初始化
 
-| Props参数                       | 描述            |                             默认                              |
-|-------------------------------|---------------|:-----------------------------------------------------------:|
-| <b>open</b>: <i>Boolean</i>   | 打开相机          |                           `false`                           |
-| <b>picture</b>: <i>Object</i> | 拍完照后预览图片的配置   |                        `{btn:"确定"}`                         |
-| <b>video</b>: <i>Object</i>   | 录视频后预览视频的配置   |                        `{btn:"确定"}`                         |
+| Props参数                       | 描述            |              默认               |
+|-------------------------------|---------------|:-----------------------------:|
+| <b>open</b>: <i>Boolean</i>   | 打开相机          |            `false`            |
+| <b>picture</b>: <i>Object</i> | 拍完照后预览图片的配置   | `{btn:"确定",mime:"image/png"}` |
+| <b>video</b>: <i>Object</i>   | 录视频后预览视频的配置   | `{btn:"确定",mime:"video/mp4"}` |
 
-| Events事件            | 描述                 |                            回调参数                            |
-|---------------------|--------------------|:----------------------------------------------------------:|
-| <b>cameraCb</b>       | 预览图片、视频点确定后回调      | `{type:"picture",file:File}` or `{type:"video",file:File}` |
+| Events事件            | 描述                                       |                                                                                 回调参数                                                                                 |
+|---------------------|------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| <b>cameraCb</b>       | 预览图片、视频点确定后回调，original是原文件，result是编辑后的文件 | `{type:"picture",data:{original:{url:url,file:File},result:{url:url,file:File}}}` or `{type:"video",data:{original:{url:url,blob:Blob},result:{url:url,blob:Blob}}}` |
 
 [npm-img]: https://img.shields.io/npm/v/vue-wechat-camera
 [npm-url]: https://npmjs.org/package/vue-wechat-camera

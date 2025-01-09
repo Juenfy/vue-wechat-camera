@@ -9,13 +9,15 @@ const props = defineProps({
   picture: {
     type: Object,
     default: {
-      btn: "确定"
+      btn: "确定",
+      mime: "image/png"
     }
   },
   video: {
     type: Object,
     default: {
-      btn: "确定"
+      btn: "确定",
+      mime: "video/mp4"
     }
   }
 })
@@ -31,8 +33,8 @@ const tipsRef = ref(null)
 const width = ref(0)
 const height = ref(0)
 const videoRef = ref(null)
-const videoSrc = ref("")
-const picSrc = ref("")
+const videoData = ref("")
+const picData = ref("")
 const constraints = ref({})
 const controlBtn = ref({
   torch: false,
@@ -110,8 +112,8 @@ const stopCamera = (close = false) => {
       track.stop()
     })
   }
-  picSrc.value = ""
-  videoSrc.value = ""
+  picData.value = ""
+  videoData.value = ""
 }
 
 const switchCamera = () => {
@@ -136,7 +138,7 @@ const takePhoto = (event) => {
       canvas.value.width,
       canvas.value.height
   )
-  picSrc.value = canvas.value.toDataURL("image/jpeg")
+  picData.value = canvas.value.toDataURL(props.picture.type)
   openPicClip.value = true
   // stopCamera()
   flashLight(false, track, capabilities)
@@ -162,9 +164,8 @@ const startRecording = (event) => {
   mediaRecorder.value.onstop = () => {
     const track = stream.value.getVideoTracks()[0]
     const capabilities = track.getCapabilities()
-    const blob = new Blob(recordedChunks.value, {type: 'video/webm'})
+    videoData.value = new Blob(recordedChunks.value, {type: props.video.type})
     openVideoClip.value = true
-    videoSrc.value = URL.createObjectURL(blob)
     flashLight(false, track, capabilities)
     // stopCamera()
     // 清理数据
@@ -221,10 +222,10 @@ const stopRecording = () => {
 const goBack = (type) => {
   if (type === "picture") {
     openPicClip.value = false
-    picSrc.value = ""
+    picData.value = ""
   } else {
     openVideoClip.value = false
-    videoSrc.value = ""
+    videoData.value = ""
   }
   // startCamera()
 }
@@ -370,10 +371,10 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <picture-clip :open="openPicClip" @close="goBack('picture')" :src="picSrc" :width="width" :height="height"
-                  @sendCb="(e) => emit('cameraCb',e)" :btn="props.picture.btn"/>
-    <video-clip :open="openVideoClip" @close="goBack('video')" :src="videoSrc" :width="width" :height="height"
-                @sendCb="(e) => emit('cameraCb',e)" :btn="props.picture.btn"/>
+    <picture-clip :open="openPicClip" @close="goBack('picture')" :data="picData" :width="width" :height="height"
+                  @sendCb="(e) => emit('cameraCb',e)" :config="props.picture"/>
+    <video-clip :open="openVideoClip" @close="goBack('video')" :data="videoData" :width="width" :height="height"
+                @sendCb="(e) => emit('cameraCb',e)" :config="props.video"/>
   </div>
 </template>
 

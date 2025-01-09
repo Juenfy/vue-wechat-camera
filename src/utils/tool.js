@@ -113,6 +113,7 @@ class picTool {
     }
 
     initCanvas(width, height, url) {
+        this.url = url
         this.canvas.width = width
         this.canvas.height = height
         this.ctx = this.canvas.getContext("2d")
@@ -554,7 +555,7 @@ class picTool {
         return name.length > 0 && this.tool.value.hasOwnProperty(name) ? this.tool.value[name] : this.tool.value
     }
 
-    toDataURL(mimeType = "image/jpeg") {
+    toDataURL(mimeType) {
         const cva = document.createElement("canvas")
         const ctx = cva.getContext("2d")
         cva.width = this.canvas.width
@@ -571,8 +572,18 @@ class picTool {
         return cva.toDataURL(mimeType)
     }
 
-    toFile(mimeType = "image/jpeg") {
-        return base64ToFile(this.toDataURL(mimeType))
+    result(mimeType) {
+        const resURL = this.toDataURL(mimeType)
+        return {
+            original: {
+                url: this.url,
+                file: base64ToFile(this.url)
+            },
+            result: {
+                url: resURL,
+                file: base64ToFile(resURL)
+            }
+        }
     }
 
     clear() {
@@ -585,12 +596,13 @@ class picTool {
 class videoTool {
     constructor() {
         this.player = null
+        this.blob = null
     }
 
-    init(width, height, url) {
-
+    init(width, height, blob) {
+        this.blob = blob
         this.initDom()
-        this.player.src = url
+        this.player.src = URL.createObjectURL(blob)
         this.player.width = width
         this.player.height = height
         this.player.play()
@@ -609,8 +621,17 @@ class videoTool {
         this.footer = document.getElementById("video-footer")
     }
 
-    toFile() {
-        return new File([this.player.src], "video.webm", {type: "video/webm"})
+    result() {
+        return {
+            original: {
+                url: this.player.src,
+                blob: this.blob
+            },
+            result: {
+                url: this.player.src,
+                blob: this.blob
+            }
+        }
     }
 }
 

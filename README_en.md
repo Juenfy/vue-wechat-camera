@@ -29,7 +29,7 @@ npm run dev
 ## Quick start
 ### How to install?
 ```shell
-npm i vue-wechat-camera
+npm i vue-wechat-camera@latest
 ```
 
 ### How to use?
@@ -54,15 +54,15 @@ const cameraCb = (e) => {
 
 ### Initialisation
 
-| Props                       | description                                             |   default    |
-|-----------------------------|------------------------------------------------|:------------:|
-| <b>open</b>: <i>Boolean</i> | open the camera                                |   `false`    |
-| <b>picture</b>: <i>Object</i> | the config of preview picture after take photo | `{btn:"确定"}` |
-| <b>video</b>: <i>Object</i> | the config of preview video after record video | `{btn:"确定"}` |
+| Props                       | description                                             |            default            |
+|-----------------------------|------------------------------------------------|:-----------------------------:|
+| <b>open</b>: <i>Boolean</i> | open the camera                                |            `false`            |
+| <b>picture</b>: <i>Object</i> | the config of preview picture after take photo | `{btn:"确定",mime:"image/png"}` |
+| <b>video</b>: <i>Object</i> | the config of preview video after record video | `{btn:"确定",mime:"video/mp4"}` |
 
-| Events            | description                  |                      callback params                       |
-|-------------------|------------------------------|:----------------------------------------------------------:|
-| <b>cameraCb</b>     | callback when click sure btn | `{type:"picture",file:File}` or `{type:"video",file:File}` |
+| Events            | description                  |                                                                           callback params                                                                            |
+|-------------------|------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| <b>cameraCb</b>       | 预览图片、视频点确定后回调      | `{type:"picture",data:{original:{url:url,file:File},result:{url:url,file:File}}}` or `{type:"video",data:{original:{url:url,blob:Blob},result:{url:url,blob:Blob}}}` |
 
 [npm-img]: https://img.shields.io/npm/v/vue-wechat-camera
 [npm-url]: https://npmjs.org/package/vue-wechat-camera
