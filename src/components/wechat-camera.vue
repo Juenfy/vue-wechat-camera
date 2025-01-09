@@ -110,6 +110,8 @@ const stopCamera = (close = false) => {
       track.stop()
     })
   }
+  picSrc.value = ""
+  videoSrc.value = ""
 }
 
 const switchCamera = () => {
@@ -281,8 +283,12 @@ const checkDevice = () => {
   })
 }
 
-watch(() => props.open, () => {
-  startCamera()
+watch(() => props.open, (val) => {
+  if (val)
+    startCamera()
+  else {
+    stopCamera(true)
+  }
 })
 
 onBeforeUnmount(() => {
