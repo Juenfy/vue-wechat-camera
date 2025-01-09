@@ -584,29 +584,19 @@ const getEmoji = () => {
 }
 
 const base64ToFile = (base64, fileName = "") => {
-    // 提取 Base64 数据部分
-    const base64Split = base64.split(',')
-    const base64Data = base64Split[1]
-
-    // 提取mimeType
-    const mimeType = base64Split[0].split(':')[1].split(';')[0]
-
+    const arr = base64.split(",")
+    const mime = arr[0].match(/:(.*?);/)[1] // 提取 MIME 类型
+    const bstr = atob(arr[1]) // 解码 Base64 数据
+    let n = bstr.length
+    const u8arr = new Uint8Array(n)
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n)
+    }
     // 处理文件名
     if (fileName.trim().length <= 0) {
-        fileName = Math.floor(Date.now() / 1000) + "." + mimeType.split('/')[1]
+        fileName = Math.floor(Date.now() / 1000) + "." + mime.split('/')[1]
     }
-
-    // 将 Base64 数据解码为二进制数据
-    const binaryData = atob(base64Data)
-
-    // 创建 Uint8Array
-    const arrayBuffer = new Uint8Array(binaryData.length)
-    for (let i = 0; i < binaryData.length; i++) {
-        arrayBuffer[i] = binaryData.charCodeAt(i)
-    }
-
-    // 创建 File 对象
-    return new File([arrayBuffer], fileName, {type: mimeType})
+    return new File([u8arr], fileName, { type: mime })
 }
 
 const getTwoFingerDistance = (touches) => {
