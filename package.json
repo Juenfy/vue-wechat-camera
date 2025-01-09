@@ -1,6 +1,6 @@
 {
   "name": "vue-wechat-camera",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "The cover wechat camera component for vue3",
   "type": "commonjs",
   "main": "dist/vue-wechat-camera.umd.js",
