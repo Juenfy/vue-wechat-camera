@@ -43,7 +43,7 @@ import {onMounted, ref} from "vue"
 const openCamera = ref(false)
 
 const cameraCb = (e) => {
-    console.log("cameraCb", e.file.name, e.file.size, e.file.type)
+    console.log("cameraCb", e)
 }
 <!-- template -->
 <button type="button" @click="openCamera = true">open camera</button>
